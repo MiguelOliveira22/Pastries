@@ -16,7 +16,7 @@ try{
 
 catch{
     console.error("Arquivo de configuração Não Encontrado!");
-    let cont = prompt("Gerar Arquivo? (S/n) ");
+    let cont = prompt("Gerar Arquivo (Ele poderá ser alterado no futuro!)? (S/n) ");
 
     if(cont != "n"){
         console.log();
@@ -26,7 +26,10 @@ catch{
         let serverbd = prompt("Insira O Servidor: ");
         let dbbd = prompt("Insira O Banco De Dados: ");
 
-        config = '{"user": "' + nomebd + '", "password": "' + passbd + '", "server": "' + serverbd + '", "database": "' + dbbd + '","options": {"encrypt": true, "trustServerCertificate": true}}';
+        config = '{"user": "' + nomebd + '", "password": "' + passbd + '", "server": "' + serverbd + '", "database": "' + dbbd + '", "options": {"encrypt": true, "trustServerCertificate": true}}';
+        if(!fs.existsSync("/config")){
+            fs.mkdirSync(__dirname + "/config")
+        }
         fs.writeFileSync(__dirname + "/config/config.json", config);
 
         var config = require(__dirname + "/config/config.json");
