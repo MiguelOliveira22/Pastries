@@ -6,10 +6,8 @@ const fs = require("fs");
 
 let app = express();
 
-var latest = require(__dirname + "/site/latest");
-var config = JSON.parse(fs.readFileSync("./config.json"))
-
-console.log(config)
+var latest = require(__dirname + "/site/Blog/latest");
+var config = require(__dirname + "/config/config.json");
 
 mssql.connect(config, (err) => {
     if(err){
@@ -21,7 +19,7 @@ mssql.connect(config, (err) => {
 // Server Sends Files
 
 app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/site/pastries.html", (err) => {
+    res.sendFile(__dirname + "/site/Main/pastries.html", (err) => {
         if(err){
             console.log("Arquivo Deu Rui");
             res.status(404).end();
@@ -33,7 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/erro/", (req, res) => {
-    res.sendFile(__dirname + "/site/error.html", (err) => {
+    res.sendFile(__dirname + "/site/Main/error.html", (err) => {
         if(err){
             console.log("Arquivo Deu Rui");
             res.status(404).end();
@@ -46,7 +44,7 @@ app.get("/erro/", (req, res) => {
 });
 
 app.get("/about/", (req, res) => {
-    res.sendFile(__dirname + "/site/about.html", (err) => {
+    res.sendFile(__dirname + "/site/Main/about.html", (err) => {
         if(err){
             console.log("Arquivo Deu Rui");
             res.status(404).end();
@@ -63,7 +61,7 @@ app.get("/blog/", (req, res) => {
 
 app.get("/blog/:idPost/:namePost", (req, res) => {
     var file = req.params.idPost;
-    res.sendFile(__dirname + "/site/" + file + ".html", (err) => {
+    res.sendFile(__dirname + "/site/Blog/" + file + ".html", (err) => {
         if(err){
             console.log("Arquivo Deu Rui");
             res.redirect("/erro/");
@@ -107,10 +105,23 @@ app.get("/cdn/:fileName", (req, res) => {
     });
 });
 
+app.get("/cdn/f/:fileName", (req, res) => {
+    var file = req.params.fileName;
+    res.sendFile(__dirname + "/site-files/Favicon/" + file, (err) => {
+        if(err){
+            console.log("Arquivo Deu Rui");
+            res.status(404).end();
+        }
+        else{
+            console.log("Arquivo Funfou");
+        }
+    });
+});
+
 app.get("/images/:idImage", (req, res) => {
     var id = req.params.idImage;
     new mssql.Request().query("SELECT imagepath FROM Pastries.Main WHERE id = " + id, (err, result) => {
-        if(err){
+        if(err || result.recordset.length == 0){
             console.log("SQL Deu Rui");
             res.status(404).end();
         }
@@ -130,7 +141,14 @@ app.get("/images/:idImage", (req, res) => {
 });
 
 app.get("/values/:pageNumber", (req, res) => {
-    let page = Number(req.params.pageNumber);
+    try{
+        var page = Number(req.params.pageNumber);
+    }
+    catch{
+        console.log("SQL Deu Rui");
+        res.status(404).end();
+    }
+
     new mssql.Request().query("SELECT id, nome FROM Pastries.Main WHERE id = " + page, (err, result) => {
         if(err || result.recordset.length == 0){
             console.log("SQL Deu Rui");
@@ -144,7 +162,14 @@ app.get("/values/:pageNumber", (req, res) => {
 });
 
 app.get("/page/:pageNumber", (req, res) => {
-    let page = Number(req.params.pageNumber);
+    try{
+        var page = Number(req.params.pageNumber);
+    }
+    catch{
+        console.log("SQL Deu Rui");
+        res.status(404).end();
+    }
+
     new mssql.Request().query("SELECT id, nome FROM Pastries.Main WHERE id >= " + (page * 20) + " and id < " + ((page + 1) * 20) , (err, result) => {
         if(err || result.recordset.length == 0){
             console.log("SQL Deu Rui");

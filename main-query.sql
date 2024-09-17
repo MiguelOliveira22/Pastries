@@ -8,8 +8,6 @@ CREATE TABLE Pastries.Main(
 	imagepath varchar(40) NOT NULL,
 );
 
-INSERT INTO Pastries.Main VALUES ('Gerações Felizes', 'vomaefeliz.jpg');
-
 SELECT id FROM Pastries.Main;
 
 DROP TABLE Pastries.Main;
