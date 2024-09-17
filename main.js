@@ -7,9 +7,7 @@ const fs = require("fs");
 let app = express();
 
 var latest = require(__dirname + "/site/latest");
-var config = fs.readFile(__dirname + "/config.json", (e, data) => {
-    data.toJSON().data;
-})
+var config = JSON.parse(fs.readFileSync("./config.json"))
 
 console.log(config)
 
