@@ -1,0 +1,113 @@
+body{
+    margin: 0px;
+    font-family: 'Dancing Script', cursive;
+    font-size: larger;
+    justify-content: center;
+}
+
+.logo{
+    font-size: xx-large;
+}
+
+.flex{
+    display: flex;
+}
+
+.column{
+    flex-direction: column;
+}
+
+.center{
+    align-items: center;
+}
+
+.gap{
+    gap: 10px;
+}
+
+.division{
+    background-color: black;
+    width: 95vw;
+    height: 0.25vh;
+    border-radius: 100%;
+}
+
+.padding{
+    padding: 10px;
+}
+
+.ball{
+    background-color: black;
+    width: 0.25vw;
+    height: 0.25vw;
+    border-radius: 100%;
+}
+
+.menubar{
+    width: 70vw;
+    align-items: center;
+}
+
+.main{
+    width: 70vw;
+    height: 70vh;
+    align-items: center;
+    justify-content: center; 
+}
+
+.selector{
+    padding: 10px;
+    cursor: pointer;
+}
+
+.blog{
+    width: 70vw;
+}
+
+.content{
+    font-size: x-large;
+}
+
+.imgallsize{
+    width: 100%;
+}
+
+.cards{
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px black ;
+    margin: 5px 5px;
+}
+
+.justify{
+    justify-content: center;
+}
+
+#imagem{
+    width: 300px;
+    height: 300px;
+    border-radius: 5px;
+}
+
+#imagemsmall{
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+}
+
+#imagembig{
+    height: 60vh;
+}
+
+h1{
+    margin: 0;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+a:hover{
+    color: rgb(51, 51, 51);
+}
