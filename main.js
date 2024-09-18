@@ -32,6 +32,8 @@ catch{
         }
         fs.writeFileSync(__dirname + "/config/config.json", config);
 
+        process.stdout.write('\x1Bc');
+
         var config = require(__dirname + "/config/config.json");
         main(config);
     }
