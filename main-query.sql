@@ -1,5 +1,3 @@
-USE Usable;
-
 CREATE SCHEMA Pastries;
 
 CREATE TABLE Pastries.Main(
