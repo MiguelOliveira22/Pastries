@@ -2,8 +2,9 @@
 
 const fs = require("fs");
 const mssql = require("mssql");
-const express = require("express")
-const dotenv = require("dotenv").config(__dirname);
+const express = require("express");
+const { exit } = require("process");
+
 const prompt = require("prompt-sync")({sigint: true});
 
 let app = express();
@@ -12,8 +13,11 @@ var latest = require(__dirname + "/site/Blog/latest");
 
 // DOTENV VARIAVEIS
 
-var config = process.env.CONNECTION_STRING;
-if(config == undefined){
+require("dotenv").config(__dirname);
+const config = process.env.CONNECTION_STRING;
+const porta = process.env.PORT;
+
+if(config == undefined || porta == undefined){
     console.error("Arquivo de configuração Não Encontrado!");
     let cont = prompt("Gerar Arquivo (Ele poderá ser alterado no futuro!)? (S/n) ");
 
@@ -27,16 +31,14 @@ if(config == undefined){
         let serverbd = prompt("Insira O Servidor: ");
         let dbbd = prompt("Insira O Banco De Dados: ");
 
-        process.env.CONNECTION_STRING = "Server=%s; Database=%s; User Id=%s; Password=%s; Encrypt=true; TrustServerCertificate=true;", serverbd, dbbd, nomebd, passbd;
+        process.env.CONNECTION_STRING = `Server=${serverbd}; Database=${dbbd}; User Id=${nomebd}; Password=${passbd}; Encrypt=true; TrustServerCertificate=true;`;
         process.env.PORT = 80;
-
-        main();
     }
+    exit(0);
 }
-
-var porta = process.env.PORT;
-
-main();
+else{
+    main();
+}
 
 function main(){
     mssql.connect(config, (err) => {
@@ -45,8 +47,6 @@ function main(){
         }
         console.log("Logged");
     });
-
-    // Server Sends Files
 
     app.get("/", (req, res) => {
         res.sendFile(__dirname + "/site/Main/pastries.html", (err) => {
