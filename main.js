@@ -34,7 +34,7 @@ if(config == undefined || porta == undefined){
         process.env.CONNECTION_STRING = `Server=${serverbd}; Database=${dbbd}; User Id=${nomebd}; Password=${passbd}; Encrypt=true; TrustServerCertificate=true;`;
         process.env.PORT = 80;
     }
-    exit(0);
+    exit(1);
 }
 else{
     main();
@@ -200,7 +200,7 @@ function main(){
             res.status(404).end();
         }
 
-        new mssql.Request().query("SELECT id, nome FROM Pastries.Main WHERE id >= " + (page * 20) + " and id < " + ((page + 1) * 20) , (err, result) => {
+        new mssql.Request().query(`SELECT id, nome FROM Pastries.Main WHERE id >= " + (page * 20) + " and id < " + ${((page + 1) * 20)}`, (err, result) => {
             if(err || result.recordset.length == 0){
                 console.log("SQL Deu Rui");
                 res.status(404).end();
